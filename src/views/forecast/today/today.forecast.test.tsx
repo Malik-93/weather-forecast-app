@@ -16,6 +16,8 @@ describe('<TodayForecast />', () => {
             </Provider>);
             expect(container).toBeInTheDocument();
 
+            
+
         }
     });
 })
