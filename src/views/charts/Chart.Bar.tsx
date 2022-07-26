@@ -10,8 +10,6 @@ import {
     select
 } from "d3";
 import { IData } from '../../types';
-import mockData from '../../mockData.json';
-let current: string = '';
 
 interface BarChartProps {
     data: IData[];
@@ -65,24 +63,23 @@ function Bars({ data, height, scaleX, scaleY }: BarsProps) {
                     y={scaleY(value)}
                     width={scaleX.bandwidth()}
                     height={height - scaleY(value)}
-                    fill="teal"
+                    fill="#2d2d73"
                 />
             ))}
         </>
     );
 }
 type Props = {
-
 }
 const defaultProps = {
 }
-const BarChart: React.FC<Props> = () => {
+const BarChart: React.FC<Props & BarChartProps> = ({ data }: BarChartProps) => {
     const margin = { top: 10, right: 0, bottom: 20, left: 30 };
     const width = 500 - margin.left - margin.right;
     const height = 300 - margin.top - margin.bottom;
     const reducer = useAppSelector(store => store.weather_forecast_slice);
-    const data: IData[] = reducer.bar_chart;
-    console.log('BAR', data);
+    const bar_chart = reducer.bar_chart;
+    console.log('bar_chart', bar_chart);
     const scaleX = scaleBand()
         .domain(data.map(({ label }) => label))
         .range([0, width])
@@ -91,9 +88,11 @@ const BarChart: React.FC<Props> = () => {
         .domain([0, Math.max(...data.map(({ value }) => value))])
         .range([height, 0]);
     return (
-        <div className="col-lg-6">
-            <div><span className="daily_forecast_label">Bar Chat</span></div>
-            <svg
+        <div className="col-sm-12 col-md-12 col-lg-6">
+            <div><span className="daily_forecast_label">Bar Chart</span></div>
+            <div className='d-flex align-items-center justify-content-center my-5'>
+            <div style={{maxWidth: "500px", overflowX: "auto", paddingBottom: "10px", margin: "0px"}}>
+            <svg style={{color: "#fff", display: "flex", justifyContent: "center"}}
                 width={width + margin.left + margin.right}
                 height={height + margin.top + margin.bottom}
             >
@@ -103,6 +102,8 @@ const BarChart: React.FC<Props> = () => {
                     <Bars data={data} height={height} scaleX={scaleX} scaleY={scaleY} />
                 </g>
             </svg>
+            </div>
+        </div>
         </div>
     )
 }

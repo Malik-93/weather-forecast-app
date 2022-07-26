@@ -8,7 +8,7 @@ const defaultProps = {
 }
 const Header: React.FC<Props> = (props) => {
     return <div className="header container-fluid" >
-        <div><span className="daily_forecast_label">{props.title}</span></div>
+        <div><span className="app_title">{props.title}</span></div>
         <img className="logo" src={require('../../assets/Logo.png')} />
     </div >
 }

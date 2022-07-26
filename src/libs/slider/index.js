@@ -139,7 +139,7 @@ class Slider extends React.Component {
 
     render() {
         return (
-            <div className="container" onClick={this.onScroll}>
+            <div className="container-fluid d-flex my-5" onClick={this.onScroll}>
                 {this.leftControl}
                 <div
                     className="slideshow"
@@ -175,40 +175,40 @@ const tempratureRapper = (temp = 0, is_celcius = true) => {
     return `${temprature(is_celcius, temp)}${is_celcius ? `°C` : `°F`}`
 }
 const Card = props => {
+    console.log('props', props);
     return <div className="card">
-        <div className="header" style={{ background: props.headerColor }}> {props.title}</div>
+        <div className="header" style={{ background: props.headerColor }}> Weather Card{props.title}</div>
         <div className="content">
-            <div className="">
-                <p className="">
-                    {`Date : ${new Date(props.item.dt_txt).toUTCString()}`}
-                </p>
-                <p className="">
-                    {`Temprature : ${tempratureRapper(props.item.main.temp, props.is_celcius)}`}
-                </p>
-                <p className="">
-                    {`Weather : ${props.item.weather[0].description}`}
-                </p>
-                <p className="">
-                    {`Today's high temperature : ${tempratureRapper(props.item.main.temp_max, props.is_celcius)}`}
-                </p>
-                <p className="">
-                    {`Today's low temperature : ${tempratureRapper(props.item.main.temp_min, props.is_celcius)}`}
-                </p>
-                <p className="">
-                    {`Humidity: ${props.item.main.humidity}%`}
-                </p>
-                <p className="">
-                    {`Wind Speed: ${props.item.wind.speed}km/h`}
-                </p>
-                <i className={`wi ${props.item.weather[0].icon}`} />
-            </div>
+            <ul className="Card_listing">
+                <li className="listing">
+                    <span className='carlisting_title'>Date :</span> {`${new Date(props.item.dt_txt).toUTCString()}`}
+                </li>
+                <li className="listing">
+                    <span className='carlisting_title'>Temprature :</span>   {`${tempratureRapper(props.item.main.temp, props.is_celcius)}`}
+                </li>
+                <li className="listing">
+                    <span className='carlisting_title'>Weather :</span> {`${props.item.weather[0].description}`}
+                </li>
+                <li className="listing">
+                    <span className='carlisting_title'>Today's high temperature :</span> {`${tempratureRapper(props.item.main.temp_max, props.is_celcius)}`}
+                </li>
+                <li className="listing">
+                    <span className='carlisting_title'>Today's low temperature :</span> {`${tempratureRapper(props.item.main.temp_min, props.is_celcius)}`}
+                </li>
+                <li className="listing">
+                    <span className='carlisting_title'>Humidity :</span> {`${props.item.main.humidity}%`}
+                </li>
+                <li className="listing">
+                    <span className='carlisting_title'>Wind Speed : </span> {`${props.item.wind.speed}km/h`}
+                </li>
+                <div><img className="card_weather_icon" src={require('../../assets/rainy-day.png')} alt="" /></div>
+            </ul>
         </div>
     </div>
 };
 
 
 export default ({ data = [], is_celcius = true }) => {
-    console.log(data.length);
 
     const DivBox = props => {
         return (
@@ -239,7 +239,6 @@ export default ({ data = [], is_celcius = true }) => {
     return (
         <div className="App">
             <React.Fragment>
-                <h3> Slider 2 </h3>
                 <Slider>{data.map((item, index) => (
                     <Card key={`card-index-${index}`} item={item} is_celcius={is_celcius} />
                 ))}

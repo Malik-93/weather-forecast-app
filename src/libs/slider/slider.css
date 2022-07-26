@@ -17,18 +17,18 @@
 }
 
 svg path {
-    fill: #757575;
+    fill: #2d2d73;
 }
 
 svg:hover path {
-    fill: #222;
+    fill: #2d2d73;
 }
 
 .arrow-box {
     border: 1px solid #dfe1e5;
     border-radius: 50%;
     background-color: #fff;
-    color: #757575;
+    color: #2d2d73;
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04), 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     cursor: pointer;
     height: 36px;
@@ -48,8 +48,9 @@ svg:hover path {
 }
 
 .slideshow {
-    height: 200px;
-    width: 600px;
+    background-color: white;
+    height: 400px;
+    width: 755px;
     margin: 0;
     position: relative;
     overflow-x: hidden;
@@ -86,21 +87,18 @@ svg:hover path {
 /* $scale: 0.7; */
 
 .card {
-    height: 90%;
-    width: 200px;
+    width: 255px;
     background: #fff;
-
     border-radius: 0.2rem;
     box-shadow: 2px 2px 8px rgba(black, 0.2);
-    padding: 0 15px 0 15px;
+    padding: 0px;
 
 }
 
 .header {
     height: 25%;
     width: 100%;
-
-    background: #FF7077;
+    background: #2d2d73;
     border-top-left-radius: 0.2rem;
     border-top-right-radius: 0.2rem;
     color: white;
@@ -117,4 +115,24 @@ svg:hover path {
     background: rgba(grey, 0.2);
     height: 6px;
     margin-top: 5px;
+}
+
+.Card_listing {
+    padding: 0px;
+}
+
+li.listing {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+span.carlisting_title {
+    font-weight: 100;
+    display: inline-block;
+    margin-right: 3px;
+}
+
+.card_weather_icon {
+    height: 100px;
+    width: 100px;
 }

@@ -1,6 +1,6 @@
 import { getRequest } from "../services/api.service";
 import { CountryInfoResponse, CurrentWeatherResponse, RequestParams, WeeklyWeatherResponse } from "../types";
-import { set_current_forecast, set_weather_map, set_weekly_forecast, set_bar_chart } from '../redux/reducer-slices/weather.forecast.slice';
+import { set_current_forecast, set_weather_map, set_weekly_forecast } from '../redux/reducer-slices/weather.forecast.slice';
 import { appStore } from "../redux/store";
 export const ISB_LAT_LONG = {
     lat: 33.6844,
@@ -9,12 +9,12 @@ export const ISB_LAT_LONG = {
 export const _alert = (message: string) => {
     alert(message)
 }
-const getCurrentForecast = (params: RequestParams, onSuccess = (data: CurrentWeatherResponse) => { }, onError = (error: Error) => { }) => {
-    // return console.log('getCurrentForecast ran...');
+const getCurrentForecast = (params: RequestParams) => {
+    return console.log('getCurrentForecast ran...');
     const units = params.units ? `units=${params.units}&` : ''
     getRequest(`https://api.openweathermap.org/data/2.5/weather?lat=${params.lat}&lon=${params.lon}&${units}appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`, (data: CurrentWeatherResponse) => {
         if (data.cod == 200) {
-            const _data = {
+            const _data: CurrentWeatherResponse = {
                 ...data,
                 main: {
                     ...data.main,
@@ -24,27 +24,22 @@ const getCurrentForecast = (params: RequestParams, onSuccess = (data: CurrentWea
                 }
 
             }
-            onSuccess(_data)
-            appStore.dispatch(set_current_forecast(_data));
+            appStore.dispatch(set_current_forecast(_data))
         } else {
             _alert(data.message || 'No record found');
-            onSuccess({ ...data, message: data.message || 'No record found' });
         }
     },
-        (err: Error | TypeError | any) => {
-            onError(err);
+        (err: TypeError | Error | any) => {
             console.log(err);
         })
 }
 
-
-
-const getWeeklyForecast = (params: RequestParams, onSuccess = (data: WeeklyWeatherResponse) => { }, onError = (error: Error) => { }) => {
-    // return console.log('getWeeklyForecast ran...');
+const getWeeklyForecast = (params: RequestParams) => {
+    return console.log('getWeeklyForecast ran...');
     const units = params.units ? `units=${params.units}&` : ''
     getRequest(`https://api.openweathermap.org/data/2.5/forecast?lat=${params.lat}&lon=${params.lon}&${units}appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`, (data: WeeklyWeatherResponse) => {
         if (data.cod == 200) {
-            const _data = {
+            const _data: WeeklyWeatherResponse = {
                 ...data,
                 list: data.list.map(el => ({
                     ...el,
@@ -56,48 +51,40 @@ const getWeeklyForecast = (params: RequestParams, onSuccess = (data: WeeklyWeath
                     },
                 }))
             }
-            onSuccess(_data)
-            appStore.dispatch(set_weekly_forecast(_data));
-            setBarChartData(_data.list[0].dt_txt.split(' ')[0]);
+            appStore.dispatch(set_weekly_forecast(_data))
         } else {
             _alert(data.message || 'No record found');
-            onSuccess({ ...data, message: data.message || 'No record found' });
-
         }
     },
         (err: TypeError | Error | any) => {
             console.log(err);
-            onError(err);
+
         })
 }
-const getLatLongAndData = (query: string, isZip: boolean = false, onSuccess = (data: CountryInfoResponse) => { }, onError = (error: Error) => { }) => {
+const getLatLongAndData = (query: string, isZip: boolean = false) => {
     query = query.trim();
     const url = `http://api.openweathermap.org/geo/1.0/${isZip ? `zip?zip=${query}` : `direct?q=${query}`}&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`;
     getRequest(url, (response: any) => {
         if (!isZip && response.length) {
             const data: CountryInfoResponse = response[0];
-            onSuccess(data);
             getCurrentForecast({ lat: data.lat, lon: data.lon });
             getWeeklyForecast({ lat: data.lat, lon: data.lon });
         } else if (Object.keys(response).length) {
             const data: CountryInfoResponse = response;
-            onSuccess(data);
             getCurrentForecast({ lat: data.lat, lon: data.lon });
             getWeeklyForecast({ lat: data.lat, lon: data.lon });
         } else {
             const data: CountryInfoResponse = response;
             _alert(data.message || 'No record found');
-            onSuccess({ ...data, message: data.message || 'No record found' })
         }
     },
         (err: TypeError | Error | any) => {
             console.log(err);
-            onError(err);
         })
 
 }
 
-const getLocationAndForecast = (onSuccess = (data: WeeklyWeatherResponse) => { }, onError = (error: Error) => { }) => {
+const getLocationAndForecast = () => {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
             ({ coords }) => {
@@ -112,6 +99,7 @@ const getLocationAndForecast = (onSuccess = (data: WeeklyWeatherResponse) => { }
                 getWeeklyForecast(ISB_LAT_LONG);
             }
         )
+        return true;
     }
 }
 const temprature = (isCelcius: boolean = true, celcius: number = 0) => {
@@ -121,28 +109,10 @@ const temprature = (isCelcius: boolean = true, celcius: number = 0) => {
 const kelvinToCelcius = (kelvin: number,) => {
     return Math.round(kelvin - 273.15)
 }
-const setBarChartData = (filter: string = '') => {
-    const _data = appStore.getState().weather_forecast_slice.weekly_forecast;
-    const result = _data.list.map((el: any, idx: number) => {
-        if (idx === 0) {
-            filter = `${el.dt_txt.split(' ')[0]}`
-        }
-        if (el.dt_txt.split(' ')[0] === filter) {
-            return {
-                label: `${new Date(el.dt_txt).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}`,
-                value: Math.round(el.main.temp)
-            };
-        }
-    }).filter((x: any) => x);
-    console.log('result', result);
-    appStore.dispatch(set_bar_chart(result));
-}
 export {
     getLocationAndForecast,
     getCurrentForecast,
     getWeeklyForecast,
     temprature,
-    getLatLongAndData,
-    kelvinToCelcius,
-    setBarChartData
+    getLatLongAndData
 }

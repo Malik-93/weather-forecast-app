@@ -12,7 +12,7 @@ import { WeatherMap } from './views/weather-map';
 const App: React.FC = () => {
   // console.log('reducer', reducer)
   React.useEffect(() => {
-    getLocationAndForecast();
+    // getLocationAndForecast();
   }, [])
   return (
     <div className="App">
@@ -22,13 +22,18 @@ const App: React.FC = () => {
           <Search />
           <Zip />
         </div>
-        <div className="row mt-4">
+        <div className="row mt-5">
           <TodayForecast />
           <Temprature />
         </div>
         <div className="row mt-5">
           <WeeklyForecast />
-          <BarChart />
+          <BarChart data={[
+            { label: "Apples", value: 100 },
+            { label: "Bananas", value: 200 },
+            { label: "Oranges", value: 50 },
+            { label: "Kiwis", value: 150 }
+          ]} />
         </div>
         <WeatherMap />
       </div>

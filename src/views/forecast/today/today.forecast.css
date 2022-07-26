@@ -6,11 +6,24 @@
     font-weight: 600;
 }
 
-.current_weather {
-    font-size: 5rem;
+ul.current_weather {
     color: white;
-    font-weight: 600;
     margin-right: 10px;
+}
+
+li {
+    list-style-type: none;
+    text-align: start;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    white-space: nowrap;
+    
+}
+span.title {
+    display: inline-block;
+    margin-right: 10px;
+    font-weight: 100;
 }
 
 .weather_icon {

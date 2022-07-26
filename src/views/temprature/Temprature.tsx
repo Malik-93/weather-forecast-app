@@ -10,7 +10,7 @@ const defaultProps = {
 const Temprature: React.FC<Props> = (props) => {
     const dispatch = useAppDispatch();
     const [activeIndex, setActiveIndex] = React.useState<number>(0)
-    return <div className="col-sm-6 col-md-6 col-lg-6">
+    return <div className="col-sm-12 col-md-12 col-lg-6">
         <div><span className="converter_label">Temprature Convertor</span></div>
         <div className="d-flex align-items-center my-5">
             {
@@ -21,7 +21,12 @@ const Temprature: React.FC<Props> = (props) => {
                     }}>{title}</Button>
                 ))
             }
+
         </div>
+            <div className='d-flex align-items-center'>
+                <div className='show_temp'>301°C</div>
+                <div className='show_temp'>301°F </div>
+            </div>
     </div>
 }
 
