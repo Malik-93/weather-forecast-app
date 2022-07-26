@@ -1,0 +1,33 @@
+.converter_label {
+    display: inline-block;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: white;
+    font-weight: 600;
+}
+
+.celsius_btn {
+    font-size: 1.2rem;
+    height: 50px;
+    width: 100%;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0px 1px 5px 0px white;
+    font-weight: 600;
+    margin-right: 50px;
+}
+
+.fahrenheit_btn {
+    font-size: 1.2rem;
+    height: 50px;
+    width: 100%;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0px 1px 5px 0px white;
+    font-weight: 600;
+}
+
+.active-btn {
+    background-color: cadetblue;
+    color: #fff;
+}

@@ -1,0 +1,1 @@
+export { default as BarChart } from './Chart.Bar';

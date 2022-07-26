@@ -1,0 +1,19 @@
+.daily_forecast_label {
+    display: inline-block;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: white;
+    font-weight: 600;
+}
+
+.current_weather {
+    font-size: 5rem;
+    color: white;
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+.weather_icon {
+    width: 200px;
+    height: 200px;
+}
